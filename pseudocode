@@ -4,6 +4,7 @@
 #import python date parsing libraries
 #import datetime module
 #import calendar module
+#import dateutil module
 
 #setup the workspace environment - 
   #env 'storm drain inlet' feature class (contains fields: "water quality (from satellite image)" )
@@ -16,4 +17,5 @@
     #parse recurring schedule text string 
     #calculate latest date in which the street sweeping was done  (new project function)
     #calculate the delta = date the satellite image was captured (water quality date-stamp) - last date that the street was swept (from street sweeping schedule spreadsheet)
+      # use  class datetime.timedelta 
   
