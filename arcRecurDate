@@ -1,2 +1,13 @@
-#see summary in the pseudocode
-
+#pseudocode
+#import arcpy
+#import python date parsing libraries
+#setup the workspace environment -
+#env 'storm drain inlet' feature class (contains fields: "water quality (from satellite image)" )
+#Enter code
+#set cursor "storm drain inlet"
+#for loop the following processes
+#parse date-stamp of satellite image from satellite image file name (this will be an exact date on the calendar)
+#create a new field to collect "x days since street was swept" + "satellite image date-stamp"
+#parse recurring schedule text string
+#calculate latest date in which the street sweeping was done (new project function)
+#calculate the delta = date the satellite image was captured (water quality date-stamp) - last date that the street was swept (from street sweeping schedule spreadsheet)
