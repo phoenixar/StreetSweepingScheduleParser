@@ -1,7 +1,9 @@
 #pseudocode 
 
-#import arcpy
+#import arcpy module
 #import python date parsing libraries
+#import datetime module
+#import calendar module
 
 #setup the workspace environment - 
   #env 'storm drain inlet' feature class (contains fields: "water quality (from satellite image)" )
