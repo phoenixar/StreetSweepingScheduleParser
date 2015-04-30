@@ -1,4 +1,67 @@
-#copy and paste the following code into the Field Calculator
+#copy and paste the following code into the python window to execute  
 
-#if else decision structure: 
-#
+try:
+    # Import the modules
+    import arcpy
+    from arcpy import env
+
+    # Set up the environment
+    env.workspace = r"E:\StreetSweeping\\"
+    env.overwriteOutput = True
+
+    # Set up cursor for the drain outlets
+    arcpy.MakeFeatureLayer_management("Parcels","Parcels_Lyr",'"DU"= 1')
+
+    drainCursor = arcpy.da.SearchCursor("Locations_lyr","Marker")
+    for row in siteCursor:
+        siteName = row[0]
+
+        # Select parcels within 150 feet of the new selection
+        arcpy.Select_analysis("Locations_lyr",\
+        r"C:\EsriPress\GISTPython\MyExercises\Scratch\Temporary Storage.gdb\SiteTemp",\
+        '"Marker" = \'' + siteName + "\'")
+
+        arcpy.SelectLayerByLocation_management("Parcels_lyr","WITHIN_A_DISTANCE",\
+        r"C:\EsriPress\GISTPython\MyExercises\Scratch\Temporary Storage.gdb\SiteTemp",\
+        "150","NEW_SELECTION")
+
+        # Start a while statement until number of dwelling units exceeds 200
+        parcelCount = int(arcpy.GetCount_management("Parcels_lyr").getOutput(0))
+        print parcelCount
+
+        myCount = 1
+        while parcelCount < 200:
+            # All statements at this indent level are part of the WHILE loop
+
+            # Add to the selected set all property within 150 feet and redo count
+            # SelectLayerByLocation_management (in_layer, overlap_type, select_features, search_distance, selection_type)
+            arcpy.SelectLayerByLocation_management("Parcels_lyr","WITHIN_A_DISTANCE","Parcels_lyr","150","ADD_TO_SELECTION")
+
+            parcelCount = int(arcpy.GetCount_management("Parcels_lyr").getOutput(0))
+            print parcelCount
+            if myCount == 8:
+                parcelCount = 200
+            else:
+                myCount = myCount + 1
+
+            # Exit the while statement when count exceeds 200
+
+        # Export the selected features to a new feature class
+        # Use the current site name as the file name
+        arcpy.CopyFeatures_management("Parcels_lyr", r"C:\EsriPress\GISTPython\MyExercises\MyAnswers.gdb\\" \
+        + siteName.replace(" ","_"))
+
+        print siteName + " Output OK!"
+        # Move to the next site and repeat
+
+except:
+    print "Process did not complete"
+
+
+# Set up cursor for the bookmobile sites
+# Select parcels within 150 feet of the new selection
+# Start a while statement until number of dwelling units exceeds 200
+# Add to the selected set all property within 150 feet and redo count
+# Exit the while statement when count exceeds 200
+# Export the selected features to a new feature class using the Marker name
+# Move to the next site and repeat
